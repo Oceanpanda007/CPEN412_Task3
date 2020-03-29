@@ -1,5 +1,13 @@
 package com.example.ozone_spatial;
 
+import android.Manifest;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import android.content.pm.PackageManager;
+import android.widget.Toast;
+import android.webkit.WebSettings;
+
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
@@ -44,8 +52,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // this.webView = (WebView) findViewById(R.id.webView);
         mWebView = (WebView) findViewById(R.id.webView);
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)){
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }else{
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.INTERNET)){
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.INTERNET}, 1);
+            }else{
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.INTERNET}, 1);
+            }
+        }
 
         // Brower niceties -- pinch / zoom, follow links in place
         mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
@@ -58,9 +89,10 @@ public class MainActivity extends AppCompatActivity {
         mWebView.setWebChromeClient(new GeoWebChromeClient());
 
         // Load Ozone website
-        mWebView.loadUrl("https://90eeacea.ngrok.io/geoserver/www/map.html");
+        mWebView.loadUrl("https://3e945f63.ngrok.io/geoserver/www/map.html");
 
     }
+
 
     @Override
     public void onBackPressed() {
