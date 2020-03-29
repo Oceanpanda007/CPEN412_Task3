@@ -88,11 +88,31 @@ public class MainActivity extends AppCompatActivity {
         mWebView.getSettings().setGeolocationEnabled(true);
         mWebView.setWebChromeClient(new GeoWebChromeClient());
 
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
         // Load Ozone website
-        mWebView.loadUrl("https://3e945f63.ngrok.io/geoserver/www/map.html");
+        mWebView.loadUrl("https://5e0de00e.ngrok.io/geoserver/www/map.html");
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+        switch (requestCode){
+            case 1: {
+                if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    if (ContextCompat.checkSelfPermission(MainActivity.this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
+                        Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                        mWebView.loadUrl("https://5e0de00e.ngrok.io/geoserver/www/map.html");
+                    }
+                }else{
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {
